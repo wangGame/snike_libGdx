@@ -5,12 +5,8 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-
-import org.omg.PortableInterceptor.DISCARDING;
 
 import java.util.Random;
 
@@ -21,6 +17,7 @@ public class GameView extends Group {
     private int step = 10;
     private Random random = new Random();
     private Image target;
+    private boolean isLive = true;
     public GameView(){
         setSize(Constant.width,Constant.hight);
         setDebug(true);
@@ -33,17 +30,7 @@ public class GameView extends Group {
         }
         target = new Image(new Texture("snike.png"));
         addActor(target);
-
         setTartPosition();
-        //        tempAction =Actions.forever(Actions.delay(0.4F,Actions.run(
-//                ()->{
-//                    snike.addNode();
-//                    if (snike.getNum() >=10){
-//                        removeAction(tempAction);
-//                    }
-//            }
-//        )));
-//        addAction(tempAction);
         currentDir = Direction.RIGHT;
 
         InputAdapter adapter = new InputAdapter(){
@@ -67,18 +54,46 @@ public class GameView extends Group {
     @Override
     public void act(float delta) {
         super.act(delta);
-        time += delta;
-        if (time >0.1F){
-            time = 0;
-            move();
-            head = snike.getHead();
-            if (con((int)head.getX(),(int)head.getY(),(int) target.getX(),(int) target.getY())) {
-                Node node = snike.addNode();
-                addActor(node.getImage());
-                setTartPosition();
+        if (isLive) {
+            time += delta;
+            if (time > 0.1F) {
+                time = 0;
+                move();
+                head = snike.getHead();
+                if (con((int) head.getX(), (int) head.getY(), (int) target.getX(), (int) target.getY())) {
+                    Node node = snike.addNode();
+                    if (currentDir == Direction.DOWN){
+                        node.setY((int) (head.getY() - 10));
+                    }else if (currentDir == Direction.UP){
+                        node.setY((int) (head.getY() + 10));
+                    }else if (currentDir == Direction.LEFT){
+                        node.setX((int) (head.getX() - 10));
+                    }else if (currentDir == Direction.RIGHT){
+                        node.setX((int) (head.getX() + 10));
+                    }
+                    addActor(node.getImage());
+                    setTartPosition();
+                }
             }
+            die();
         }
         handler();
+    }
+
+    private void die(){
+        head = snike.getHead();
+        if (snike.getNum()<3) {
+            return;
+        }
+        Node temp = head;
+        head = head.next.next;
+        while (head.next != null){
+            head = head.next;
+            if (con((int)temp.getX(),(int)temp.getY(),(int)head.getX(),(int)head.getY())) {
+                isLive = false;
+                showPass();
+            }
+        }
     }
 
     private boolean con(int x,int y,int targetx,int targety){
@@ -86,6 +101,12 @@ public class GameView extends Group {
             return true;
         }
         return false;
+    }
+
+    public void showPass(){
+        Image image = new Image(new Texture(""));
+        addActor(image);
+        image.setSize(Constant.width,Constant.hight);
     }
 
     private float time;

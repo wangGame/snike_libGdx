@@ -19,7 +19,7 @@ public class NodeSnike {
 
     public Node addNode (){
         addNum();
-        Node node = new Node(num,head.getX()+10,head.getY());
+        Node node = new Node(num,head.getX(),head.getY());
         Node temp = head;
         node.next = temp;
         head = node;
