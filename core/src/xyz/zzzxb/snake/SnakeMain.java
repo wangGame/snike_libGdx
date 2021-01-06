@@ -22,7 +22,7 @@ public class SnakeMain extends Game {
 
     @Override
     public void create() {
-        viewport = new ExtendViewport(300,300);
+        viewport = new ExtendViewport(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
         resize(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
         texture = new Texture(Gdx.files.internal("title.png"));
         sprite = new Sprite(texture);
@@ -57,6 +57,8 @@ public class SnakeMain extends Game {
         super.resize(width, height);
         viewport.update(width,height);
         viewport.apply();
+//        Constant.width = width;
+//        Constant.hight = height;
         Constant.width = viewport.getWorldWidth();
         Constant.hight = viewport.getScreenHeight();
     }

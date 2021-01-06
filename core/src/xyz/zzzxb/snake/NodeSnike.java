@@ -79,4 +79,8 @@ class Node{
     public void postionChange(){
         image.setPosition(x,y);
     }
+
+    public Image getImage() {
+        return image;
+    }
 }
