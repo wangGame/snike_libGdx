@@ -12,48 +12,29 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 import org.omg.PortableInterceptor.DISCARDING;
 
+import java.util.Random;
+
 public class GameView extends Group {
     private Node head;
     private NodeSnike snike;
     private Direction currentDir;
     private int step = 10;
+    private Random random = new Random();
+    private Image target;
     public GameView(){
         setSize(Constant.width,Constant.hight);
         setDebug(true);
         snike = new NodeSnike(100,100);
-
         snike.addNode();
-        snike.addNode();
-        snike.addNode();
-        snike.addNode();
-        snike.addNode();
-        snike.addNode();
-        snike.addNode();
-        snike.addNode();
-        snike.addNode();
-        snike.addNode();
-        snike.addNode();
-        snike.addNode();
-        snike.addNode();
-        snike.addNode();
-        snike.addNode();
-        snike.addNode();
-        snike.addNode();
-        snike.addNode();
-        snike.addNode();
-        snike.addNode();
-        snike.addNode();
-        snike.addNode();
-        snike.addNode();
-        snike.addNode();
-        snike.addNode();
-        snike.addNode();
-
         head = snike.getHead();
         while (head != null) {
             addActor(head.getImage());
             head = head.next;
         }
+        target = new Image(new Texture("snike.png"));
+        addActor(target);
+
+        setTartPosition();
         //        tempAction =Actions.forever(Actions.delay(0.4F,Actions.run(
 //                ()->{
 //                    snike.addNode();
@@ -75,6 +56,14 @@ public class GameView extends Group {
         Gdx.input.setInputProcessor(adapter);
     }
 
+    private void setTartPosition(){
+        int x = random.nextInt((int)Constant.width-60)+30;
+        int y = random.nextInt((int)Constant.width-60)+30;
+        x = x / 10 * 10;
+        y = y / 10 * 10;
+        target.setPosition(x,y);
+    }
+
     @Override
     public void act(float delta) {
         super.act(delta);
@@ -82,8 +71,21 @@ public class GameView extends Group {
         if (time >0.1F){
             time = 0;
             move();
+            head = snike.getHead();
+            if (con((int)head.getX(),(int)head.getY(),(int) target.getX(),(int) target.getY())) {
+                Node node = snike.addNode();
+                addActor(node.getImage());
+                setTartPosition();
+            }
         }
         handler();
+    }
+
+    private boolean con(int x,int y,int targetx,int targety){
+        if (x==targetx && y == targety){
+            return true;
+        }
+        return false;
     }
 
     private float time;

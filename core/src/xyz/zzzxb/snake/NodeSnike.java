@@ -17,12 +17,13 @@ public class NodeSnike {
         num++;
     }
 
-    public void addNode (){
+    public Node addNode (){
         addNum();
         Node node = new Node(num,head.getX()+10,head.getY());
         Node temp = head;
         node.next = temp;
         head = node;
+        return node;
     }
 
     public int getNum() {
