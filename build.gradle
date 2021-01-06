@@ -1,0 +1,49 @@
+//apply plugin: "idea"
+buildscript {
+    repositories {
+        maven { url 'https://maven.aliyun.com/repository/public'}
+        maven { url 'http://maven.aliyun.com/nexus/content/repositories/google' }
+        maven { url 'http://maven.aliyun.com/nexus/content/repositories/jcenter'}
+        mavenCentral()
+        jcenter()
+
+        maven {
+            url 'https://maven.google.com/'
+            name 'Google'
+        }
+        maven {
+            url 'https://maven.aliyun.com/repository/central'
+            name 'central'
+        }
+        maven { url 'https://jitpack.io' }
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.5.4'
+        classpath 'com.google.gms:google-services:4.3.4'
+    }
+}
+allprojects {
+    apply plugin: "idea"
+
+    version = "1.0"
+    ext {
+        appName = "Word Stack"
+    }
+    
+    repositories {
+        maven { url 'https://maven.aliyun.com/repository/public'}
+        maven { url 'http://maven.aliyun.com/nexus/content/repositories/google' }
+        maven { url 'http://maven.aliyun.com/nexus/content/repositories/jcenter'}
+        mavenLocal()
+        mavenCentral()
+        jcenter()
+        maven { url "https://maven.google.com/" }
+        maven { url "https://mvnrepository.com/" }
+//        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+//        maven { url "https://oss.sonatype.org/content/repositories/releases/" }
+        flatDir {
+            dirs 'libs'  // 申明本地库
+        }
+    }
+}

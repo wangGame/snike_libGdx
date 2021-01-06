@@ -1,0 +1,25 @@
+apply plugin: "java"
+
+sourceCompatibility = 1.8
+sourceSets.main.java.srcDirs = [ "src/" ]
+
+project.ext.mainClassName = "com.kangwang.word.DesktopLauncher"
+project.ext.assetsDir = new File("../android/assets");
+
+
+task run(dependsOn: classes, type: JavaExec) {
+    main = project.mainClassName
+    classpath = sourceSets.main.runtimeClasspath
+    standardInput = System.in
+    workingDir = project.assetsDir
+    ignoreExitValue = true
+}
+
+dependencies {
+    compile project(':core')
+    compile name: 'gdx-backend-lwjgl'
+    compile name:'gdx-natives'
+    compile name:'gdx-backend-lwjgl-natives'
+    compile name:'gdx-tools'
+
+}

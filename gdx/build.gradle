@@ -1,0 +1,23 @@
+apply plugin: "java"
+targetCompatibility = 1.7
+sourceCompatibility = 1.7
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+sourceSets.main.java.srcDirs = ["src/"]
+//buildscript {
+//    repositories {
+//        mavenCentral()
+//    }
+//    dependencies {
+//        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+//    }
+//}
+//repositories {
+//    mavenCentral()
+//}
+
+dependencies {
+    compile fileTree(include: '*.jar', dir: 'libs')
+}
+
+
+
