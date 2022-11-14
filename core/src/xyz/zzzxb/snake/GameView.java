@@ -19,7 +19,6 @@ public class GameView extends Group {
     private Direction currentDir;
     public GameView(){
         setSize(Constant.width,Constant.hight);
-        setDebug(true);
         snike = new NodeSnike(100,100);
         head = snike.getHead();
         tempAction =Actions.forever(Actions.delay(0.4F,Actions.run(
@@ -47,9 +46,10 @@ public class GameView extends Group {
     public void act(float delta) {
         super.act(delta);
         time += delta;
-        if (time >1){
+        if (time >0.1){
             time = 0;
-            move();
+                move();
+
         }
         handler();
     }
@@ -67,18 +67,19 @@ public class GameView extends Group {
     private Vector2 current = new Vector2(0,0);
     private Vector2 prePos = new Vector2(Integer.MAX_VALUE,Integer.MAX_VALUE);
     public void move(){
+        float distance = 10;
         head = snike.getHead();
         while (head !=null){
             if (prePos.x == Integer.MAX_VALUE) {
                 prePos.set(head.getX(),head.getY());
                 if (currentDir == Direction.UP){
-                    current.set(head.getX(),head.getY()+10);
+                    current.set(head.getX(),head.getY()+distance);
                 }else if (currentDir == Direction.DOWN){
-                    current.set(head.getX(),head.getY()-10);
+                    current.set(head.getX(),head.getY()-distance);
                 }else if (currentDir == Direction.LEFT){
-                    current.set(head.getX()-10,head.getY());
+                    current.set(head.getX()-distance,head.getY());
                 }else if (currentDir == Direction.RIGHT){
-                    current.set(head.getX()+10,head.getY());
+                    current.set(head.getX()+distance,head.getY());
                 }
                 head.setX((int)current.x);
                 head.setY((int)current.y);
